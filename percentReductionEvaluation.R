@@ -33,6 +33,6 @@ reductioncomp(mean = 4.6, sd = .44, reduction = .3)$data %>%
   theme_minimal() +
   labs(title = "30% reduction in log scase")
 
-convert_to_lognormal(meanx = 37, varx =29.5^2)
+convert_to_lognormal(meanx = 37, varx =870.25)
 reductioncomp(mean = 3.36, sd = .70, reduction = .3)
 
