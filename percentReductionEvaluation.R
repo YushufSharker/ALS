@@ -35,7 +35,7 @@ reductioncomp <- function(mean, reduction, sd, nt = 50, nc = 50){
 
 
 
-data <- reductioncomp(mean = 3.6, sd = .66, reduction = .3, nt = 12, nc = 4)
+data <- reductioncomp(mean = 3.6, sd = .7, reduction = .3, nt = 12, nc = 4)
 
 
 reductioncomp(mean = 4.6, sd = .44, reduction = .3)$data %>%

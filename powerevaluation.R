@@ -2,7 +2,7 @@ library(tidyverse)
 
 pwr.t2n.test(n1 = 12, n2 = 4, d = -.36/0.21, sig.level = .10, alternative = "two.sided")
 
-
+# This idea needs to be modified 01/17/2025
 pboIncRate <-seq(0, 1.4, 0.05)
 trmtIncRate <-seq(0, 1.4, 0.05)
 ratedf <- expand.grid(pboIncRate, trmtIncRate)
