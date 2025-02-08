@@ -4,11 +4,11 @@ library(tidyverse)
 library(broom)
 start_time <- Sys.time()
 #
-# mean = 3.6
-# reduction = .3
-# sd = .66
-# nt = 12 # Use some even integer
-# nc = 4
+mean = 3
+reduction = .1
+sd = .05
+nt = 6 # Use some even integer
+nc = 11
 
 reductioncomp <- function(mean, reduction=.3, sd, nt = 50, nc = 50){
   trmt <- as.factor(c(rep("T", 2*nt), rep("C", 2*nc)))
@@ -46,6 +46,7 @@ reductioncomp <- function(mean, reduction=.3, sd, nt = 50, nc = 50){
                   reduction_original_percent,
                    reduction_log_percent,
                    pvalue = pvalue)
+  output
   return(output)
   # return(list(meanC = meanC, meanT = meanT, meanCL = meanCL, menaTL = meanTL, GMratio = changeLlog, varchg=vcov, median = mean, meanl = meanl,
   #             xxinv = xxinv, varchg_true = varchg_true, estimate = estimates, data=dat))
@@ -55,12 +56,10 @@ reductioncomp <- function(mean, reduction=.3, sd, nt = 50, nc = 50){
 # reductioncomp(mean = 3.36, sd = .70, reduction = .3)
 # convert_to_lognormal(meanx = 37, varx =870.25)
 sim.grid <- expand.grid(mean = seq(3, 6, 0.5),
-                        reduction = seq(0, 0.5, 0.1),
-                        sd = seq(0.05, .7, length.out = 10),
-                        nt = c(3, 6, 9, 12),
-                        nc = c(1, 2, 3, 4)) %>%
-  filter((nt ==3 & nc == 1) | (nt == 6 & nc == 2)|
-           (nt==9 & nc == 3) | (nt==12 & nc ==4))
+                        reduction = c(.1, .2, .3, .4),
+                        sd = c(0.05, .1, .2, .3, .4, .5, .6, .7),
+                        nt = c(6, 9, 12),
+                        nc = c(11))
 
 source("goparallel.R")
 goparallel(ncores = 10)
@@ -79,7 +78,7 @@ sim_ALS_output<- bind_rows( #future_map_dfr under purrr and furrr lib
     MARGIN = 1,
     FUN = function(x) {
 
-      bind_rows(lapply(1:1000, function(y) {
+      bind_rows(lapply(1:500, function(y) {
         reductioncomp(
           mean = sim.grid$mean[x],
           reduction = sim.grid$reduction[x],
@@ -94,5 +93,5 @@ sim_ALS_output<- bind_rows( #future_map_dfr under purrr and furrr lib
 parallel::stopCluster(cl)
 end_time <- Sys.time()
 runtime <- (end_time - start_time) # in hours
-save.image("./ALS_SIM_01312025.RData")
+save.image("./ALS_SIM_02052025.RData")
 
